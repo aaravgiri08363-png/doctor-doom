@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOM — The Sovereign of Latveria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --iron: #1C1C1E;
+    --iron-mid: #2A2A2E;
+    --iron-light: #3C3C42;
+    --bronze: #7C5C2A;
+    --bronze-light: #A07840;
+    --green: #00FF88;
+    --green-dim: #00CC66;
+    --green-ghost: rgba(0,255,136,0.08);
+    --red: #8B1A1A;
+    --red-bright: #C0392B;
+    --parchment: #D4C9A8;
+    --parchment-dim: #9A8F78;
+    --white: #F0EDE8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--iron);
+    color: var(--white);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(28,28,30,0.92);
+    border-bottom: 1px solid var(--bronze);
+    backdrop-filter: blur(12px);
+  }
+  .nav-sigil {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600;
+    color: var(--parchment-dim); letter-spacing: 2px; text-decoration: none;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,255,136,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 30% 50%, rgba(139,26,26,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Gothic arch pattern */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(124,92,42,0.08) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(124,92,42,0.05) 80px);
+    pointer-events: none;
+  }
+
+  .hero-text {
+    padding: 120px 64px 80px 80px;
+    position: relative; z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; color: var(--green); letter-spacing: 4px;
+    text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 32px; height: 1px; background: var(--green);
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--white);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .hero-title span {
+    display: block;
+    background: linear-gradient(135deg, var(--bronze-light) 0%, var(--parchment) 50%, var(--bronze) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--bronze-light); letter-spacing: 6px;
+    text-transform: uppercase; margin-bottom: 40px;
+  }
+
+  .hero-desc {
+    font-size: 17px; color: var(--parchment-dim);
+    max-width: 420px; line-height: 1.8;
+    font-style: italic; margin-bottom: 48px;
+  }
+
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--iron); background: var(--green);
+    padding: 14px 32px; text-decoration: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .hero-cta:hover {
+    background: var(--parchment);
+    box-shadow: 0 0 24px rgba(0,255,136,0.3);
+  }
+
+  .hero-mask-panel {
+    position: relative;
+    height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Doom's mask SVG composition */
+  .mask-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, var(--iron) 0%, #0D0D0F 60%, var(--iron) 100%);
+  }
+
+  .mask-glow {
+    position: absolute;
+    width: 500px; height: 600px;
+    background: radial-gradient(ellipse, rgba(0,255,136,0.12) 0%, transparent 70%);
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(0.95); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+
+  .mask-svg {
+    position: relative; z-index: 2;
+    width: 320px;
+    filter: drop-shadow(0 0 20px rgba(0,255,136,0.2)) drop-shadow(0 0 60px rgba(0,255,136,0.08));
+    animation: mask-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes mask-pulse {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,136,0.2)) drop-shadow(0 0 60px rgba(0,255,136,0.06)); }
+    50% { filter: drop-shadow(0 0 30px rgba(0,255,136,0.35)) drop-shadow(0 0 80px rgba(0,255,136,0.15)); }
+  }
+
+  .mask-runes {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .rune-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,255,136,0.1);
+    animation: spin-slow linear infinite;
+  }
+  .rune-ring:nth-child(1) { width: 420px; height: 420px; animation-duration: 60s; }
+  .rune-ring:nth-child(2) { width: 340px; height: 340px; animation-duration: 40s; animation-direction: reverse; border-color: rgba(124,92,42,0.15); }
+  .rune-ring:nth-child(3) { width: 260px; height: 260px; animation-duration: 25s; border-color: rgba(0,255,136,0.07); }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--parchment-dim); letter-spacing: 3px; z-index: 10;
+    animation: fade-bob 2s ease-in-out infinite;
+  }
+  @keyframes fade-bob {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.8; transform: translateX(-50%) translateY(4px); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 80px; position: relative; }
+  .section-eyebrow {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--green); letter-spacing: 4px; text-transform: uppercase;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-eyebrow::before { content: '//'; color: var(--bronze); }
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(28px, 3vw, 44px); font-weight: 700;
+    color: var(--white); line-height: 1.1; margin-bottom: 16px;
+  }
+  .section-rule {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+    margin-bottom: 48px;
+  }
+
+  /* ── ORIGIN SECTION ── */
+  .origin {
+    background: var(--iron);
+    border-top: 1px solid rgba(124,92,42,0.3);
+  }
+  .origin-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .origin-text p {
+    color: var(--parchment-dim); margin-bottom: 20px; font-size: 17px;
+  }
+  .origin-text strong { color: var(--parchment); font-style: italic; font-weight: 500; }
+
+  .origin-stats {
+    display: flex; flex-direction: column; gap: 1px;
+    border: 1px solid var(--bronze);
+    background: var(--bronze);
+    overflow: hidden;
+  }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px 24px;
+    background: var(--iron-mid);
+    transition: background 0.2s;
+  }
+  .stat-row:hover { background: var(--iron-light); }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--parchment-dim); letter-spacing: 2px; text-transform: uppercase;
+  }
+  .stat-val {
+    font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600;
+    color: var(--green);
+  }
+
+  /* ── POWERS ── */
+  .powers { background: #111113; }
+  .powers-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    margin-top: 16px;
+  }
+  .power-card {
+    background: var(--iron-mid);
+    padding: 36px 28px;
+    position: relative; overflow: hidden;
+    transition: background 0.25s;
+    cursor: default;
+  }
+  .power-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .power-card:hover { background: var(--iron-light); }
+  .power-card:hover::before { transform: scaleX(1); }
+  .power-card:hover .power-glyph { color: var(--green); }
+
+  .power-glyph {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 32px; font-weight: 900;
+    color: var(--bronze); margin-bottom: 16px;
+    transition: color 0.25s;
+    line-height: 1;
+  }
+  .power-name {
+    font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600;
+    color: var(--white); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .power-desc { font-size: 15px; color: var(--parchment-dim); line-height: 1.6; }
+
+  /* ── LATVERIA ── */
+  .latveria {
+    background: var(--iron);
+    border-top: 1px solid rgba(124,92,42,0.2);
+  }
+  .latveria-inner {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;
+  }
+  .latveria-side {
+    position: sticky; top: 120px;
+  }
+  .latveria-side blockquote {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--parchment);
+    line-height: 1.4;
+    padding-left: 24px;
+    border-left: 3px solid var(--green);
+    font-style: normal;
+    margin-top: 32px;
+  }
+  .latveria-side cite {
+    display: block; margin-top: 16px;
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--green); letter-spacing: 3px;
+  }
+  .latveria-articles { display: flex; flex-direction: column; gap: 48px; }
+  .latveria-article h3 {
+    font-family: 'Cinzel', serif; font-size: 18px; font-weight: 600;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .latveria-article p { color: var(--parchment-dim); font-size: 16px; }
+
+  /* ── ARCH DIVIDER ── */
+  .arch-divider {
+    width: 100%; height: 80px;
+    background: linear-gradient(180deg, #111113 0%, var(--iron) 100%);
+    clip-path: ellipse(60% 100% at 50% 0%);
+    margin-top: -1px;
+  }
+
+  /* ── ENEMIES ── */
+  .enemies { background: var(--iron); padding-bottom: 120px; }
+  .enemies-list {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 16px;
+  }
+  .enemy-card {
+    background: var(--iron-mid);
+    padding: 28px 24px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .enemy-card:hover { background: var(--iron-light); border-color: var(--red-bright); }
+  .enemy-name {
+    font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .enemy-tag {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--red-bright); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .enemy-note { font-size: 14px; color: var(--parchment-dim); line-height: 1.5; }
+
+  /* ── CODEX / QUOTE ── */
+  .codex {
+    background: #0A0A0C;
+    border-top: 1px solid var(--bronze);
+    border-bottom: 1px solid var(--bronze);
+    text-align: center;
+    padding: 100px 80px;
+  }
+  .codex-quote {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(22px, 3vw, 38px); font-weight: 700;
+    color: var(--parchment);
+    max-width: 860px; margin: 0 auto 24px;
+    line-height: 1.3;
+  }
+  .codex-source {
+    font-family: 'Share Tech Mono', monospace; font-size: 11px;
+    color: var(--green); letter-spacing: 4px; text-transform: uppercase;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-section { background: var(--iron); }
+  .timeline { position: relative; max-width: 700px; margin: 0 auto; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: linear-gradient(180deg, transparent, var(--bronze), var(--bronze), transparent);
+  }
+  .tl-item {
+    display: grid; grid-template-columns: 32px 1fr; gap: 24px;
+    margin-bottom: 48px; padding-left: 16px; position: relative;
+  }
+  .tl-dot {
+    width: 9px; height: 9px;
+    background: var(--green); border-radius: 0;
+    margin-top: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0,255,136,0.5);
+  }
+  .tl-year {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--green); letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .tl-event-name {
+    font-family: 'Cinzel', serif; font-size: 16px; font-weight: 600;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .tl-event-desc { font-size: 15px; color: var(--parchment-dim); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0A0A0C;
+    border-top: 1px solid var(--bronze);
+    padding: 48px 80px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-doom {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 11px; font-weight: 700;
+    color: var(--bronze-light); letter-spacing: 4px;
+  }
+  .footer-note {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--iron-light); letter-spacing: 2px;
+  }
+  .footer-seal {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 24px; color: var(--bronze);
+    opacity: 0.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-text { padding: 120px 24px 48px; }
+    .hero-mask-panel { height: 300px; }
+    .origin-grid, .latveria-inner { grid-template-columns: 1fr; }
+    .powers-grid { grid-template-columns: 1fr; }
+    .enemies-list { grid-template-columns: repeat(2, 1fr); }
+    .latveria-side { position: static; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-sigil">V. Von Doom</div>
+  <ul class="nav-links">
+    <li><a href="#origin">Origin</a></li>
+    <li><a href="#powers">Powers</a></li>
+    <li><a href="#latveria">Latveria</a></li>
+    <li><a href="#enemies">Rivals</a></li>
+    <li><a href="#timeline">Chronicle</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Sovereign. Sorcerer. Conqueror.</div>
+    <h1 class="hero-title">
+      DOCTOR<br>
+      <span>DOOM</span>
+    </h1>
+    <div class="hero-subtitle">Rex of Latveria &nbsp;·&nbsp; Lord of the Iron Mask</div>
+    <p class="hero-desc">
+      He is not a villain. He is the only man brilliant enough, powerful enough, and ruthless enough to save a world too foolish to save itself.
+    </p>
+    <a href="#origin" class="hero-cta">Enter Latveria →</a>
+  </div>
+
+  <div class="hero-mask-panel">
+    <div class="mask-bg"></div>
+    <div class="mask-glow"></div>
+    <div class="mask-runes">
+      <div class="rune-ring"></div>
+      <div class="rune-ring"></div>
+      <div class="rune-ring"></div>
+    </div>
+
+    <!-- Doom's Mask SVG -->
+    <svg class="mask-svg" viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="armorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#5A5A5E"/>
+          <stop offset="35%" style="stop-color:#8A8A90"/>
+          <stop offset="60%" style="stop-color:#4A4A4E"/>
+          <stop offset="100%" style="stop-color:#2A2A2E"/>
+        </linearGradient>
+        <linearGradient id="armorGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#7A7A80"/>
+          <stop offset="50%" style="stop-color:#3A3A3E"/>
+          <stop offset="100%" style="stop-color:#1A1A1E"/>
+        </linearGradient>
+        <filter id="greenGlow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" style="stop-color:#00FF88;stop-opacity:1"/>
+          <stop offset="70%" style="stop-color:#00CC66;stop-opacity:0.7"/>
+          <stop offset="100%" style="stop-color:#00FF88;stop-opacity:0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Hood/Cape Back -->
+      <path d="M40 80 Q20 60 30 20 Q80 0 160 0 Q240 0 290 20 Q300 60 280 80" fill="#1A1A1E" opacity="0.6"/>
+
+      <!-- Main face plate - forehead & cheeks -->
+      <path d="M80 60 Q80 30 160 28 Q240 30 240 60 L248 200 Q248 280 200 320 L160 340 L120 320 Q72 280 72 200 Z" fill="url(#armorGrad)"/>
+
+      <!-- Brow ridge -->
+      <path d="M82 95 Q160 75 238 95 L238 115 Q160 98 82 115 Z" fill="url(#armorGrad2)"/>
+
+      <!-- Forehead panel -->
+      <path d="M95 60 Q160 45 225 60 L235 95 Q160 78 85 95 Z" fill="#6A6A70"/>
+
+      <!-- Nose bridge -->
+      <rect x="150" y="115" width="20" height="90" rx="4" fill="#3A3A3E"/>
+
+      <!-- Left eye socket -->
+      <path d="M88 118 L144 118 L144 158 Q144 168 130 168 L88 168 Q78 168 78 158 Z" fill="#0A0A0C"/>
+      <!-- Left eye glow -->
+      <ellipse cx="116" cy="143" rx="22" ry="18" fill="url(#eyeGlow)" opacity="0.9" filter="url(#greenGlow)"/>
+      <ellipse cx="116" cy="143" rx="10" ry="8" fill="#00FF88" opacity="0.6"/>
+
+      <!-- Right eye socket -->
+      <path d="M176 118 L232 118 L232 158 Q232 168 232 168 L190 168 Q176 168 176 158 Z" fill="#0A0A0C"/>
+      <!-- Right eye glow -->
+      <ellipse cx="204" cy="143" rx="22" ry="18" fill="url(#eyeGlow)" opacity="0.9" filter="url(#greenGlow)"/>
+      <ellipse cx="204" cy="143" rx="10" ry="8" fill="#00FF88" opacity="0.6"/>
+
+      <!-- Cheekbone plates -->
+      <path d="M72 170 L100 170 L108 230 L72 240 Z" fill="#5A5A60"/>
+      <path d="M248 170 L220 170 L212 230 L248 240 Z" fill="#5A5A60"/>
+
+      <!-- Lower face / chin guard -->
+      <path d="M95 185 Q160 175 225 185 L228 260 Q228 300 200 318 L160 332 L120 318 Q92 300 92 260 Z" fill="url(#armorGrad2)"/>
+
+      <!-- Mouth slit -->
+      <path d="M118 225 Q160 218 202 225 L204 238 Q160 244 116 238 Z" fill="#0A0A0C"/>
+
+      <!-- Chin rivets -->
+      <circle cx="130" cy="285" r="5" fill="#4A4A50"/>
+      <circle cx="130" cy="285" r="2" fill="#6A6A70"/>
+      <circle cx="190" cy="285" r="5" fill="#4A4A50"/>
+      <circle cx="190" cy="285" r="2" fill="#6A6A70"/>
+
+      <!-- Center forehead rivet -->
+      <circle cx="160" cy="55" r="6" fill="#5A5A60"/>
+      <circle cx="160" cy="55" r="2.5" fill="#8A8A90"/>
+
+      <!-- Ear/temple plates -->
+      <path d="M62 130 Q68 120 78 120 L78 200 Q68 200 62 190 Q50 180 52 160 Q52 140 62 130 Z" fill="#4A4A50"/>
+      <path d="M258 130 Q252 120 242 120 L242 200 Q252 200 258 190 Q270 180 268 160 Q268 140 258 130 Z" fill="#4A4A50"/>
+
+      <!-- Panel lines / battle scarring -->
+      <line x1="82" y1="140" x2="78" y2="200" stroke="#2A2A2E" stroke-width="1.5"/>
+      <line x1="238" y1="140" x2="242" y2="200" stroke="#2A2A2E" stroke-width="1.5"/>
+      <line x1="96" y1="185" x2="92" y2="260" stroke="#2A2A2E" stroke-width="1"/>
+      <line x1="224" y1="185" x2="228" y2="260" stroke="#2A2A2E" stroke-width="1"/>
+
+      <!-- Scar on cheek (lore accurate) -->
+      <line x1="102" y1="190" x2="112" y2="215" stroke="#2A2A2E" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- Hood frame lines -->
+      <path d="M60 75 Q40 140 52 250 Q56 290 72 240" fill="none" stroke="#2A2A2E" stroke-width="2"/>
+      <path d="M260 75 Q280 140 268 250 Q264 290 248 240" fill="none" stroke="#2A2A2E" stroke-width="2"/>
+    </svg>
+    <div class="scroll-hint">↓ &nbsp; SCROLL &nbsp; ↓</div>
+  </div>
+</header>
+
+<!-- ORIGIN -->
+<section class="origin" id="origin">
+  <div class="origin-grid">
+    <div class="origin-text">
+      <div class="section-eyebrow">Origin Protocol</div>
+      <h2 class="section-title">The Man Behind<br>the Mask</h2>
+      <div class="section-rule"></div>
+      <p>Born <strong>Victor Von Doom</strong> in the Roma encampment of Latveria, his mother Cynthia bartered her soul to Mephisto for power — and paid the ultimate price. Victor grew up with an unquenchable hunger for knowledge and vengeance.</p>
+      <p>A scholarship brought him to <strong>State University in New York</strong>, where he crossed paths with Reed Richards — a man whose minor correction to Victor's calculations Doom's pride refused to accept. The botched experiment scarred his face.</p>
+      <p>Doom traveled to Tibet, where monks forged him an iron mask in a single night — before it had cooled, he pressed it to his face, sealing both his disfigurement and his identity forever. <strong>Doctor Doom was born.</strong></p>
+    </div>
+    <div>
+      <div class="origin-stats">
+        <div class="stat-row">
+          <span class="stat-label">Real Name</span>
+          <span class="stat-val">Victor Von Doom</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Birthplace</span>
+          <span class="stat-val">Latveria, E. Europe</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Classification</span>
+          <span class="stat-val">Sorcerer Supreme (alt.)</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Intellect</span>
+          <span class="stat-val">Genius — Level 6</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Magic Mastery</span>
+          <span class="stat-val">Vishanti Tier</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">First Appearance</span>
+          <span class="stat-val">Fantastic Four #5, 1962</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Created By</span>
+          <span class="stat-val">Lee &amp; Kirby</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Allegiance</span>
+          <span class="stat-val">Himself. Latveria. Earth.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POWERS -->
+<section class="powers" id="powers">
+  <div class="section-eyebrow">Capability Manifest</div>
+  <h2 class="section-title">The Arsenal of Doom</h2>
+  <div class="section-rule"></div>
+  <div class="powers-grid">
+    <div class="power-card">
+      <div class="power-glyph">⚗</div>
+      <div class="power-name">Sorcery &amp; Mysticism</div>
+      <p class="power-desc">One of Earth's most formidable sorcerers. Commands demons, casts binding spells, travels time, and has faced Mephisto himself — not as a supplicant, but as an equal.</p>
+    </div>
+    <div class="power-card">
+      <div class="power-glyph">⚙</div>
+      <div class="power-name">Genius Intellect</div>
+      <p class="power-desc">An intellect matching or surpassing Reed Richards. Master of robotics, physics, biology, temporal mechanics, and interdimensional engineering — all before breakfast.</p>
+    </div>
+    <div class="power-card">
+      <div class="power-glyph">⚔</div>
+      <div class="power-name">Doom Armor</div>
+      <p class="power-desc">Titanium-steel armor of Doom's own design. Equipped with force fields, energy blasts, jet propulsion, and a neural-linked computer system.</p>
+    </div>
+    <div class="power-card">
+      <div class="power-glyph">♛</div>
+      <div class="power-name">Doom Bots</div>
+      <p class="power-desc">An army of android replicas so convincing they have fooled the Beyonder. Each capable of independent sorcery and combat — plausible deniability in titanium form.</p>
+    </div>
+    <div class="power-card">
+      <div class="power-glyph">⌛</div>
+      <div class="power-name">Time Platform</div>
+      <p class="power-desc">Doom's temporal chair can navigate any point in history. He has recruited Blackbeard, faced Rama-Tut, and stolen power from Beyonders across infinite time.</p>
+    </div>
+    <div class="power-card">
+      <div class="power-glyph">∞</div>
+      <div class="power-name">Cosmic Ascension</div>
+      <p class="power-desc">Has wielded the Power Cosmic, the Beyonder's power, and the Infinity Gauntlet. Given the right moment, Doom holds the power to remake all of existence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CODEX -->
+<div class="codex">
+  <p class="codex-quote">"Doom does not threaten. Doom does not bargain. Doom simply acts — and the world rearranges itself accordingly."</p>
+  <span class="codex-source">— Victor Von Doom</span>
+</div>
+
+<!-- LATVERIA -->
+<section class="latveria" id="latveria">
+  <div class="latveria-inner">
+    <div class="latveria-side">
+      <div class="section-eyebrow">Sovereign State</div>
+      <h2 class="section-title">Latveria</h2>
+      <div class="section-rule"></div>
+      <blockquote>
+        "A paradise. So long as you do not speak against the king."
+        <cite>— Daily Bugle Correspondent</cite>
+      </blockquote>
+    </div>
+    <div class="latveria-articles">
+      <div class="latveria-article">
+        <h3>Castle Doom &amp; Doomstadt</h3>
+        <p>Nestled in the Bavarian Alps, Latveria's capital Doomstadt is dominated by Castle Doom — a fortress that doubles as a research facility, mystical sanctum, and seat of absolute government. Citizens enjoy zero unemployment and universal healthcare, funded by Doom's scientific patents and enforced by his iron will.</p>
+      </div>
+      <div class="latveria-article">
+        <h3>The Doom Decrees</h3>
+        <p>Latveria under Doom operates under a strict but paradoxically stable code. Crime is almost nonexistent — not from fear alone, but because Doom ensures that want and desperation are eliminated. Those who challenge his rule answer to him personally. Those who serve faithfully are rewarded generously.</p>
+      </div>
+      <div class="latveria-article">
+        <h3>Diplomatic Immunity</h3>
+        <p>As sovereign monarch, Doom maintains full diplomatic immunity in the United States and most of the world. This has frustrated the Avengers, the Fantastic Four, and S.H.I.E.L.D. alike — his crimes against them are crimes committed, technically, by a head of state.</p>
+      </div>
+      <div class="latveria-article">
+        <h3>His Mother's Soul</h3>
+        <p>Every year on the anniversary of his mother's damnation, Doom travels to Hell itself to battle Mephisto for her soul. He has never succeeded — but he has never stopped trying. This annual act of filial devotion is, many argue, the most human thing about him.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENEMIES -->
+<section class="enemies" id="enemies">
+  <div class="section-eyebrow">Threat Register</div>
+  <h2 class="section-title">Those Who Dare Oppose</h2>
+  <div class="section-rule"></div>
+  <div class="enemies-list">
+    <div class="enemy-card">
+      <div class="enemy-name">Reed Richards</div>
+      <div class="enemy-tag">Primary Rival</div>
+      <p class="enemy-note">Doom's oldest antagonist and intellectual foil. The man whose minor observation became the wound around which a god was built.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">The Beyonders</div>
+      <div class="enemy-tag">Cosmic Threat</div>
+      <p class="enemy-note">Doom faced their end-of-everything scenario and, characteristically, solved it by becoming God of the new universe.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Mephisto</div>
+      <div class="enemy-tag">Infernal Nemesis</div>
+      <p class="enemy-note">Holds his mother's soul. Doom has fought him to a standstill more than once. The war is eternal — and neither side blinks.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Iron Man</div>
+      <div class="enemy-tag">Ideological Rival</div>
+      <p class="enemy-note">Two genius-armored men who could build together and refuse to. Their conflict is less about evil than about who gets to define civilization.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Thanos</div>
+      <div class="enemy-tag">Cosmic Adversary</div>
+      <p class="enemy-note">Doom once held the Infinity Gauntlet. He reshaped reality. The universe itself rejected his perfection — a verdict Doom disputes.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Morgan Le Fay</div>
+      <div class="enemy-tag">Mystical Rival</div>
+      <p class="enemy-note">A sorceress whose ancient power genuinely challenges Doom. Their conflicts are as much chess matches as sorcerer's duels.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Terrax</div>
+      <div class="enemy-tag">Former Servant</div>
+      <p class="enemy-note">Even cosmic heralds bend their knee — or face consequences. Doom briefly controlled the Power Cosmic itself through sheer force of will.</p>
+    </div>
+    <div class="enemy-card">
+      <div class="enemy-name">Molecule Man</div>
+      <div class="enemy-tag">Secret Weapon</div>
+      <p class="enemy-note">In Secret Wars, Doom used Owen Reece as a nuclear bomb against the Beyonders — then inherited everything. Even pawns serve their purpose.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="section-eyebrow">Chronicle of Doom</div>
+  <h2 class="section-title">Key Events</h2>
+  <div class="section-rule"></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">FF #5 · 1962</div>
+        <div class="tl-event-name">First Appearance</div>
+        <p class="tl-event-desc">Victor Von Doom debuts, immediately trapping the Fantastic Four in his time machine. A villain who outsmarts, doesn't simply overpower.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">Super Villain Team-Up · 1975</div>
+        <div class="tl-event-name">King of Latveria</div>
+        <p class="tl-event-desc">Doom's role as sovereign monarch is fully explored — he is not merely a villain, but a statesman with subjects to protect and enemies to destroy.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">Marvel Super Heroes Secret Wars · 1984</div>
+        <div class="tl-event-name">Steals the Beyonder's Power</div>
+        <p class="tl-event-desc">Doom absorbs the near-omnipotent power of the Beyonder, briefly becoming a god. He reshapes reality — then willingly surrenders it. The act of a king, not a tyrant.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">Triumph and Torment · 1989</div>
+        <div class="tl-event-name">Frees His Mother from Hell</div>
+        <p class="tl-event-desc">In one of Marvel's greatest stories, Doom defeats Mephisto in direct combat and wins his mother's soul. A masterpiece of character and consequence.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">Secret Wars · 2015</div>
+        <div class="tl-event-name">God Emperor Doom</div>
+        <p class="tl-event-desc">When the multiverse is destroyed, Doom kills the Beyonders and constructs Battleworld from its remnants. For a time, Victor Von Doom is literally God.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div>
+        <div class="tl-year">Infamous Iron Man · 2016</div>
+        <div class="tl-event-name">The Reformed Villain</div>
+        <p class="tl-event-desc">In the wake of Secret Wars, Doom takes up the Iron Man mantle — attempting to be a hero. He is, predictably, terrible at following orders and magnificent at results.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-doom">Doom &nbsp;·&nbsp; Von Doom &nbsp;·&nbsp; Rex</div>
+  <div class="footer-seal">⚜</div>
+  <div class="footer-note">Fan site · All characters © Marvel Comics</div>
+</footer>
+
+</body>
+</html>
